@@ -5,7 +5,12 @@ import java.io.*;
 
 public class WebServer extends Thread {
 	protected  Socket clientSocket;
-	public static final int PORT=10008;
+	static Config c=new Config("C:\\Users\\Dragos\\Desktop\\New folder\\index.html","C:\\Users\\Dragos\\Desktop\\New folder\\notfound.html",10008);
+	public static final int PORT=c.getPORT();
+	public static final String Default_file=c.getDefaultIndex();
+	public static final String FILE_Not_Found=c.getNotFound();
+	
+	
 	public static void main(String[] args) throws IOException {
 		ServerSocket serverSocket = null;
 		
