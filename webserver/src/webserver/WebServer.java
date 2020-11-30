@@ -1,16 +1,20 @@
 package webserver;
 
 import java.net.*;
+import java.util.StringTokenizer;
 import java.io.*;
 
 public class WebServer extends Thread {
-	protected  Socket clientSocket;
-	static Config c=new Config("C:\\Users\\Dragos\\Desktop\\New folder\\index.html","C:\\Users\\Dragos\\Desktop\\New folder\\notfound.html",10008);
-	public static final int PORT=c.getPORT();
-	public static final String Default_file=c.getDefaultIndex();
-	public static final String FILE_Not_Found=c.getNotFound();
+	private Socket clientSocket;
+	public static String DEFAULT_FILE="C:\\Users\\Dragos\\Desktop\\New folder\\index.html";
+	public static String INCORRECT_FILE="C:\\Users\\Dragos\\Desktop\\New folder\\notexist.html";
+	public static String NOT_FOUND_FILE="C:\\Users\\Dragos\\Desktop\\New folder\\404.html";
 	
+	//Config c=new Config("index.html","404.html","notexist.html",10008);
+	//DEFAULT_FILE=c.getefaultIndex();
+	public static int PORT=10008;
 	
+
 	public static void main(String[] args) throws IOException {
 		ServerSocket serverSocket = null;
 		
@@ -43,32 +47,91 @@ public class WebServer extends Thread {
 		clientSocket = clientSoc;
 		start();
 	}
-
 	public void run() {
 		System.out.println("New Communication Thread Started");
-		
+		DataOutputStream data=null;
+		PrintWriter out=null;
+		BufferedReader in=null;
 		try {
-			PrintWriter out = new PrintWriter(clientSocket.getOutputStream(),
+			  out = new PrintWriter(clientSocket.getOutputStream(),
 					true);
-			BufferedReader in = new BufferedReader(new InputStreamReader(
+			 in = new BufferedReader(new InputStreamReader(
 					clientSocket.getInputStream()));
-
+			data=new DataOutputStream(clientSocket.getOutputStream());
+			String Request;
 			String inputLine;
-			
-			while ((inputLine = in.readLine()) != null) {
-				System.out.println("Server: " + inputLine);
-				out.println(inputLine);
-
-				if (inputLine.trim().equals(""))
-					break;
-			}
-
+			inputLine=in.readLine();
+			String take=inputLine;
+			StringTokenizer parser=new StringTokenizer(take);
+			String type = parser.nextToken();
+			Request=parser.nextToken();
+			 if( type.equals("GET"))
+			 {
+				if(Request.equals("/"))
+				{
+				
+				File f=new File(DEFAULT_FILE);
+				
+				int fileLen=(int)f.length();
+				 byte file_data[]=ReadFile(f,fileLen);
+				 String s=new String(file_data);
+				 System.out.println(" "+s);
+				 String content="text/html";
+				 out.println("HTTP/1.1 200 OK");
+				 out.println(content);
+				 out.println();
+				data.writeBytes(s);
+				
+				}
+				else {
+					 File file=new File(NOT_FOUND_FILE);
+						int fileLen=(int)file.length();
+						 byte file_data[]=ReadFile(file,fileLen);
+						 String s=new String(file_data);
+						 String content="text/html";
+						out.println("HTTP/1.1 404 File Not Found");
+						out.println(content);
+						out.println();
+						 data.writeBytes(s);
+				}
+			 }
+			 else {
+				 File f=new File(INCORRECT_FILE);
+					int fileLen=(int)f.length();
+					 byte file_data[]=ReadFile(f,fileLen);
+					 String s=new String(file_data);
+					 String content="text/html";
+					 out.println("HTTP/1.1 200 OK");
+					 out.println(content);
+					 data.writeBytes(s);
+					
+					 
+			 }
 			out.close();
 			in.close();
+			data.close();
 			clientSocket.close();
-		} catch (IOException e) {
+			}catch(IOException e){
 			System.err.println("Problem with Communication Server");
 			System.exit(1);
+			}
+			}
+
+	private byte[] ReadFile(File f,int f_len) throws IOException 
+	{
+		FileInputStream in=null;
+		byte fData[]=new byte[f_len];
+		try {
+			in=new FileInputStream(f);
+			in.read(fData);
+			
+		} finally {
+			if(in!=null)
+			{
+			in.close();
+			}
 		}
+		return fData;
 	}
+	
 }
