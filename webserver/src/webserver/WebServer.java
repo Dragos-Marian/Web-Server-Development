@@ -1,23 +1,27 @@
 package webserver;
-
+import webserver.GUI;
 import java.net.*;
 import java.util.StringTokenizer;
 import java.io.*;
 
 public class WebServer extends Thread {
 	private Socket clientSocket;
-	public static String DEFAULT_FILE="C:\\Users\\Dragos\\Desktop\\New folder\\index.html";
-	public static String INCORRECT_FILE="C:\\Users\\Dragos\\Desktop\\New folder\\notexist.html";
-	public static String NOT_FOUND_FILE="C:\\Users\\Dragos\\Desktop\\New folder\\404.html";
+	
+	public static String DEFAULT_FILE;
+	public static String INCORRECT_FILE;
+	public static String NOT_FOUND_FILE;
 	
 	//Config c=new Config("index.html","404.html","notexist.html",10008);
 	//DEFAULT_FILE=c.getefaultIndex();
-	public static int PORT=10008;
+	public static int PORT;
 	
 
 	public static void main(String[] args) throws IOException {
 		ServerSocket serverSocket = null;
-		
+		PORT=GUI.p1();
+		DEFAULT_FILE=GUI.f1();
+		NOT_FOUND_FILE=GUI.f2();
+		INCORRECT_FILE=GUI.f3();
 		try {
 			serverSocket = new ServerSocket(PORT);
 			System.out.println("Connection Socket Created");
@@ -31,16 +35,17 @@ public class WebServer extends Thread {
 				System.exit(1);
 			}
 		} catch (IOException e) {
-			System.err.println("Could not listen on port: 10008.");
+			System.err.println("Could not listen on port: "+PORT);
 			System.exit(1);
 		} finally {
 			try {
 				serverSocket.close();
 			} catch (IOException e) {
-				System.err.println("Could not close port: 10008.");
+				System.err.println("Could not close port: "+PORT);
 				System.exit(1);
 			}
 		}
+		
 	}
 
 	private WebServer(Socket clientSoc) {
