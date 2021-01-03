@@ -17,7 +17,6 @@ public class GUI implements ActionListener {
 	private static JTextField port;
 	private static JTextField root;
 	private static JButton button;
-	private static JButton button2;
 	private static JLabel start;
 	private static JLabel path;
 	private static JLabel po;
@@ -64,10 +63,7 @@ public class GUI implements ActionListener {
 		po=new JLabel("");
 		po.setBounds(160, 220, 140, 25);
 		panel.add(po);
-		button2=new JButton("STOP");
-		button2.setBounds(160, 240, 80, 25);
-		button2.addActionListener(new GUI());
-		panel.add(button2);
+		
 		frame.setVisible(true);
 		
 	}
