@@ -10,7 +10,7 @@ public class Default_File_test {
 
 	@Test
 	public void test() {
-		assertEquals("Default file","index.html",WebServer.Default_file);
+		assertEquals("Default file","index.html",WebServer.DEFAULT_FILE);
 	}
 
 }

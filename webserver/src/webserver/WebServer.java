@@ -5,6 +5,8 @@ import java.util.StringTokenizer;
 import java.io.*;
 
 public class WebServer extends Thread {
+	
+
 	private Socket clientSocket;
 	
 	public static String DEFAULT_FILE;

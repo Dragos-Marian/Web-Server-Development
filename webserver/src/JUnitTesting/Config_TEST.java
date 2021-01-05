@@ -24,7 +24,7 @@ public class Config_TEST {
 		assertNotEquals(-5,Config.PORT);
 	}
 
-		Config c1=new Config("C:\\Users\\Dragos\\Desktop\\New folder\\index.html","C:\\Users\\Dragos\\Desktop\\New folder\\notexist.html",9999);
+		Config c1=new Config("C:\\Users\\Dragos\\Desktop\\New folder\\index.html",9999);
 	@Test(expected = IllegalArgumentException.class)
 	public void Test_Valid_PORT()
 	{
@@ -39,28 +39,28 @@ public class Config_TEST {
 	@Test(expected = IllegalArgumentException.class)
 	public void Test_Index()
 	{
-		Config c2=new Config("test", null, 0);
+		Config c2=new Config("test", 0);
 		String t2 = c2.getDefaultIndex();
 		
 	}
 	@Test(expected = IllegalArgumentException.class)
 	public void Test_Index2()
 	{
-		Config c3=new Config("C:\\\\Users\\\\Dragos\\\\Desktop\\\\New folder\\\\index.html", null, 0);
+		Config c3=new Config("C:\\\\Users\\\\Dragos\\\\Desktop\\\\New folder\\\\index.html", 0);
 		String t3 = c3.getDefaultIndex();
 		
 	}
 	@Test(expected = IllegalArgumentException.class)
 	public void Test_Index3()
 	{
-		Config c4=new Config("C:\\Users\\Dragos\\Desktop\\New folder\\in#dex.html","C:\\Users\\Dragos\\Desktop\\New folder" , 0);
+		Config c4=new Config("C:\\Users\\Dragos\\Desktop\\New folder\\in#dex.html",0);
 		String t4 = c4.getDefaultIndex();
 		
 	}
 	@Test(expected = IllegalArgumentException.class)
 	public void Test_Not_Found()
 	{
-		Config c5=new Config("C:\\Users\\Dragos\\Desktop\\New folder\\","C:\\Users\\Dragos\\Desktop\\New folder" , 0);
+		Config c5=new Config("C:\\Users\\Dragos\\Desktop\\New folder\\",0);
 		String t5 = c5.getDefaultIndex();
 	}
 }

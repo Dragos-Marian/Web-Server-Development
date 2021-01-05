@@ -4,7 +4,7 @@ import java.io.File;
 
 public class Config {
 	public  String ROOT;
-	public  int PORT;
+	public static  int PORT;
 	public String DefaultIndex;
 	public String NotFound;
 	public String NotExist;
